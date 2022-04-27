@@ -1,0 +1,34 @@
+<div id="notice" class="box generalbox modal modal-dialog modal-in-page show">
+  <div id="modal-content" class="box modal-content">
+    <div id="modal-header" class="box modal-header">
+      <h4>{{#str}}confirm_heading, block_anderspink{{/str}}</h4>
+    </div>
+    <div id="modal-body" class="box modal-body">
+      <p>{{#str}}confirm_msg, block_anderspink{{/str}}</p>
+    </div>
+    <div id="modal-footer" class="box modal-footer">
+      <div class="buttons">
+        <div class="singlebutton">
+          <form method="post" action="/blocks/anderspink/settings/delete.php">
+            <div>
+              <input type="submit" value="Delete" class="form-submit btn-primary">
+              <input type="hidden" name="id" value="{{id}}">
+              <input type="hidden" name="sectionname" value="{{sectionname}}">
+              <input type="hidden" name="confirm" value="true">
+              <input type="hidden" name="sesskey" value="{{sesskey}}">
+            </div>
+          </form>
+        </div>
+        <div class="singlebutton">
+          <form method="get" action="/admin/settings.php">
+            <div>
+              <input type="submit" value="Cancel">
+              <input type="hidden" name="section" value="{{sectionname}}">
+              <input type="hidden" name="sesskey" value="{{sesskey}}">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

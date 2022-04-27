@@ -1,0 +1,19 @@
+<div class="ap-article">
+    <a class="ap-article-link" href="{{ap_link}}" title="{{ap_link_title}}" target="_blank">
+        {{{image}}}
+        <div class="{{ap_link_content_class}}">
+            <div class="ap-article-title">{{ap_link_article_title}}</div>
+            <div class="ap-article-text-extra">{{ap_link_article_text}}</div>
+        </div>
+    </a>
+    <div>
+        {{#ap_article_content}}
+            <div class="ap-article-content">{{{ap_article_content}}}</div>
+        {{/ap_article_content}}
+        {{#ap_article_comments}}
+            <div class="ap-article-comment">
+                Our comment: <span class="ap-article-comment-text">{{ap_article_comment}}</span>
+            </div>
+        {{/ap_article_comments}}
+    </div>
+</div>

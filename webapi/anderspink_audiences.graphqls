@@ -1,0 +1,18 @@
+type block_anderspink_apidata {
+  briefings: [block_anderspink_briefing]!
+  boards: [block_anderspink_board]!
+}
+
+type block_anderspink_briefing {
+  id: String!
+  name: String!
+}
+
+type block_anderspink_board {
+  id: String!
+  name: String!
+}
+
+extend type Query {
+  block_anderspink_get_apidata(teamid: param_integer): block_anderspink_apidata
+}

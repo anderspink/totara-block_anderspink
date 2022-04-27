@@ -1,0 +1,14 @@
+div.form-buttons:not(.add-new) {
+    display: none !important;
+}
+
+.full-width {
+    width: 100%;
+    margin: 0;
+}
+
+.float-left {
+    text-align: left;
+    width: 100%;
+}
+

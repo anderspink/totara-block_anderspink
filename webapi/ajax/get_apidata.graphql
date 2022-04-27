@@ -1,0 +1,14 @@
+query block_anderspink_get_apidata(
+  $teamid: param_integer!
+) {
+  block_anderspink_get_apidata(teamid: $teamid) {
+    briefings {
+      id
+      name
+    }
+    boards {
+      id
+      name
+    }
+  }
+}
