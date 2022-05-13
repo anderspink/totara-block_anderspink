@@ -17,6 +17,7 @@ $returnUrl             = optional_param('return', '', PARAM_TEXT);
 $context = context_block::instance($blockInstance);
 
 require_login($courseId);
+require_capability('block/anderspink:managebriefings', $context);
 
 $goBackUrl  = new moodle_url($returnUrl, ['id' => $dashboardId, 'bui_editid' => $blockInstance, 'sesskey' => sesskey()]);
 $currentUrl = new moodle_url('/blocks/anderspink/new.php', ['course' => $courseId, 'instance' => $blockInstance, 'dashboardid' => $dashboardId]);
@@ -30,34 +31,60 @@ $formData = $_POST;
 
 //Hard post check as values may be overwritten by jquery ajax changing drop-downs dynamically
 if (!empty($formData)) {
-    $itemName      = $formData['config_' . $formData['config_source']];
+    $configSource       = clean_param($formData['config_source'], PARAM_TEXT);
+    $configBriefingTime = clean_param($formData['config_briefing_time'], PARAM_RAW);
+    $configTeam         = clean_param($formData['config_team'], PARAM_RAW);
+    $itemName           = clean_param($formData['config_' . $configSource], PARAM_TEXT);
+    $instance           = clean_param($formData['instance'], PARAM_INT);
+    $id                 = clean_param($formData['id'], PARAM_INT);
+
+    if (is_array($formData['config_audience'])) {
+        $configAudience = clean_param_array($formData['config_audience'], PARAM_RAW);
+    } else {
+        $configAudience = clean_param($formData['config_audience'], PARAM_RAW);
+    }
+
     [$item, $name] = explode('|', $itemName);
 
     $existing = block_anderspink_audiences::repository()
-        ->where('instance', $formData['instance'])
+        ->where('instance', $instance)
         ->where('item', $item);
 
     if ((!empty($existing) && $existing->exists()) && !$duplicateConfirmation) {
-        $formData['post_url']      = '/blocks/anderspink/new.php';
-        $formData['duplicate_msg'] = get_string('duplicate_confirmation', 'block_anderspink', ['name' => $name]);
-        $formData['return']        = $returnUrl;
-
         echo $OUTPUT->header();
-        echo $OUTPUT->render_from_template('block_anderspink/duplicate_confirmation', $formData);
+        echo $OUTPUT->render_from_template(
+            'block_anderspink/duplicate_confirmation',
+            (object)[
+                'course'                  => $courseId,
+                'dashboardid'             => $dashboardId,
+                'name'                    => $name,
+                'sesskey'                 => sesskey(),
+                'config_source'           => $configSource,
+                'config_briefing_time'    => $configBriefingTime,
+                'config_team'             => $configTeam,
+                'config_audience'         => $configAudience,
+                'config_' . $configSource => $itemName,
+                'instance'                => $instance,
+                'id'                      => $id,
+                'post_url'                => '/blocks/anderspink/new.php',
+                'duplicate_msg'           => get_string('duplicate_confirmation', 'block_anderspink', ['name' => $name]),
+                'return'                  => $returnUrl,
+            ]
+        );
         echo $OUTPUT->footer();
         exit;
     } else {
         $blockAudience           = new block_anderspink_audiences();
-        $blockAudience->instance = $formData['instance'];
-        $blockAudience->type     = $formData['config_source'];
+        $blockAudience->instance = $instance;
+        $blockAudience->type     = $configSource;
         $blockAudience->item     = $item;
-        $blockAudience->time     = $formData['config_briefing_time'] ?? 'auto';
+        $blockAudience->time     = $configBriefingTime ?? 'auto';
         $blockAudience->name     = $name;
-        $blockAudience->team     = $formData['config_team'];
+        $blockAudience->team     = $configTeam;
         $blockAudience->audience = '';
 
-        if (is_array($formData['config_audience'])) {
-            $blockAudience->audience = implode(',', $formData['config_audience']);
+        if (is_array($configAudience)) {
+            $blockAudience->audience = implode(',', $configAudience);
         }
 
         $blockAudience->save();

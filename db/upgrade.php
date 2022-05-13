@@ -98,5 +98,13 @@ function xmldb_block_anderspink_upgrade($oldversion)
         upgrade_plugin_savepoint(true, 2022032202, 'block', 'anderspink');
     }
 
+    if ($oldversion < 2022051001) {
+        upgrade_plugin_savepoint(true, 2022051001, 'block', 'anderspink');
+    }
+
+    if ($oldversion < 2022051002) {
+        upgrade_plugin_savepoint(true, 2022051002, 'block', 'anderspink');
+    }
+
     return true;
 }

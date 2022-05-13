@@ -17,6 +17,7 @@ $returnUrl     = optional_param('return', '', PARAM_TEXT);
 $context = context_block::instance($blockInstance);
 
 require_login($courseId);
+require_capability('block/anderspink:managebriefings', $context);
 
 $goBackUrl = new moodle_url($returnUrl, ['id' => $dashboardId, 'bui_editid' => $blockInstance, 'sesskey' => sesskey()]);
 

@@ -47,4 +47,21 @@ $capabilities = [
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks',
     ],
+
+    'block/anderspink:managebriefings' => [
+        'captype'      => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes'   => [
+            'editingteacher' => CAP_ALLOW,
+            'manager'        => CAP_ALLOW,
+        ],
+    ],
+
+    'block/anderspink:manageapikeys' => [
+        'captype'      => 'write',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes'   => [
+            'manager'        => CAP_ALLOW,
+        ],
+    ]
 ];

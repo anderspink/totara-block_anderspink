@@ -11,7 +11,10 @@ $id      = required_param('id', PARAM_INT);
 $section = required_param('sectionname', PARAM_TEXT);
 $confirm = optional_param('confirm', false, PARAM_BOOL);
 
+$context = context_system::instance();
+
 require_login();
+require_capability('block/anderspink:manageapikeys', $context);
 
 $backUrl    = new moodle_url('/admin/settings.php', ['section' => $section]);
 $currentUrl = new moodle_url('/blocks/anderspink/settings/delete.php', ['id' => $id, 'sectionname' => $section]);

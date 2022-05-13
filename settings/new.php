@@ -10,7 +10,10 @@ global $PAGE, $OUTPUT;
 
 $section = required_param('sectionname', PARAM_TEXT);
 
+$context = context_system::instance();
+
 require_login();
+require_capability('block/anderspink:manageapikeys', $context);
 
 $backUrl    = new moodle_url('/admin/settings.php', ['section' => $section]);
 $currentUrl = new moodle_url('/blocks/anderspink/settings/new.php', ['sectionname' => $section]);
